@@ -9,7 +9,15 @@ class DialPermute:
         self.max_n = None
 
     def get_permutations(self, N: int = 0, start: int = 0) -> int:
-        if N == 0:
+        '''
+            Given a starting number start on a dialpad and a length N
+            we calculate all possible unique phone combinations, restricting ourself only to 
+            chesses horse jumps. 
+            :param N:       Length of phone number
+            :param start:   Starting number to begin with
+            :return:        Number of possible unique comibinations
+        '''
+        if N == 0 or start == 5:
             self.total = 0
             logging.info("Total Permutations: {}".format(self.total))
             return self.total
@@ -22,6 +30,10 @@ class DialPermute:
 
     
     def __calc(self):
+        '''
+            Working routine to find all permutations, searches for all combinations in
+            depth first order. Termnates upon reaching the desired combinations length
+        '''
         cur = self.tree[-1]
         logging.debug('cur {}'.format((cur)))
 
@@ -46,7 +58,17 @@ class DialPermute:
 
 
     def get_next(self, n):
-        if n == 1:
+        '''
+            Given a current number on the dialpad we return all possible next targets as list,
+            the special tokens 40 and 60 are to remember the parents of the 0, as they form a 
+            loop where the origin matters.
+
+            :param n:   Current number on dialpad
+            :return:    List with all next reachable targets
+        '''
+        if n == 0:
+            return [4,6]
+        elif n == 1:
             return [6,8]
         elif n == 2:
             return [7,9]
@@ -66,7 +88,6 @@ class DialPermute:
             return [4]
         elif n == 60:
             return [6]
-
 
 
 if __name__ == '__main__':
